@@ -44,3 +44,19 @@ const parcelDB = new Schema({
 });
 
 export const ParcelDB = model("ParcelDB", parcelDB);
+
+const truckTransactionDB = new Schema({
+  truckId: {
+    type: String,
+    default: ""
+  },
+  transactionArray: {
+    type: [{
+      timeStamp: Date,
+      weight: Number,
+    }],
+    default: []
+  }
+});
+
+export const TruckTransactionDB = model("TruckTransactionDB", truckTransactionDB);

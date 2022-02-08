@@ -1,7 +1,6 @@
 'use strict';
 
-import { TruckDB } from "../model/schema.js";
-import { ParcelDB } from "../model/schema.js";
+import { TruckDB, ParcelDB, TruckTransactionDB } from "../model/schema.js";
 import { logger } from "../config/logConfig.js"
 import async from "async";
 
@@ -51,7 +50,22 @@ const _load = (truckId, parcels) => {
               callback();
             }
             totalLoaded++;
-            callback();
+            TruckDB.findById(truckId, function (errFindTruck, truck) {
+              if (errFindTruck) {
+                logger.error(`Error finding truck with id ${truckId} while loading with error: ${JSON.stringify(errFindTruck)}`);
+                callback();
+              }
+              let transaction = {
+                truckId: truckId,
+                transactionArray: [{
+                  timeStamp: Date.now(),
+                  weight: truck.totalWeight
+                }]
+              }
+              let newTran = new TruckTransactionDB(transaction);
+              newTran.save();
+              callback();
+            });
           });
         });
       }
