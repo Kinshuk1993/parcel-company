@@ -1,6 +1,6 @@
 # Service for Parcel Company
 
-A service for a parcel company that can:
+A simple RESTful API server in Node.js for a parcel company that can:
 
 - Handle creation of trucks
 - Load parcels to it
