@@ -1,9 +1,7 @@
 "use strict";
 
 import { TruckDB } from "../model/schema.js";
-// import { ParcelDB } from "../model/schema.js";
 import { logger } from "../config/logConfig.js"
-// import async from "async";
 // import * as validation from "./validation.js";
 
 
@@ -66,6 +64,7 @@ export const removeTruckById = async (req, res) => {
   }
 }
 
+// only during dev for testing
 export const removeAllTrucks = async (_req, res) => {
   try {
     let deletedTrucks = await TruckDB.deleteMany({});

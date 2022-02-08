@@ -20,9 +20,7 @@ export const allRoutes = (app) => {
   app.delete("/parcel/:parcelId", [
     parcels.removeParcelById
   ]);
-  app.delete("/deleteAllParcels", [
-    parcels.removeAllParcels
-  ]);
+
 
   // Truck
   app.post("/truck", [
@@ -37,9 +35,6 @@ export const allRoutes = (app) => {
   app.delete("/truck/:truckId", [
     trucks.removeTruckById
   ]);
-  app.delete("/deleteAllTrucks", [
-    trucks.removeAllTrucks
-  ]);
 
   // Load
   app.post("/loadTruck/:truckId", [
@@ -49,6 +44,14 @@ export const allRoutes = (app) => {
   // Unload
   app.post("/unloadTruck/:truckId", [
     loadUnloadTruck.unloadTruck
+  ]);
+
+  // During dev only - for testing
+  app.delete("/deleteAllParcels", [
+    parcels.removeAllParcels
+  ]);
+  app.delete("/deleteAllTrucks", [
+    trucks.removeAllTrucks
   ]);
 
   // Default

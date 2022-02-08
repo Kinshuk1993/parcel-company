@@ -1,12 +1,11 @@
 "use strict";
 
 import { ParcelDB } from "../model/schema.js";
+import { TruckDB } from "../model/schema.js";
 import { logger } from "../config/logConfig.js"
 // import * as validation from "./validation.js";
 
 export const createParcel = (req, res) => {
-  // req.body.truckId = "";
-  // req.body.loaded = false;
   let newParcel = new ParcelDB(req.body);
   return newParcel.save()
     .then((savedParcel) => {
@@ -51,11 +50,19 @@ export const getAllParcels = async (_req, res) => {
 export const removeParcelById = async (req, res) => {
   let parcelId = req.params.parcelId
   try {
-    let deletedParcel = await ParcelDB.findByIdAndDelete(parcelId);
-    if (!deletedParcel) {
-      logger.error(`No parcel found with id: ${parcelId}`);
+    let parcel = await ParcelDB.findById(parcelId);
+    if (!parcel) {
+      logger.error(`Parcel not found with id: ${parcelId}`);
       return res.status(404).send({ error: `Parcel with id ${parcelId} not found` });
     }
+    if (parcel.truckId) {
+      let truck = await TruckDB.findById(parcel.truckId);
+      if (truck) {
+        logger.info(`Truck found for parcel id: ${parcelId}, unloading parcel from truck before deleting parcel..`);
+        await TruckDB.findOneAndUpdate({ _id: parcel.truckId }, { $inc: { totalWeight: -parcel.weight, totalParcels: -1 } });
+      }
+    }
+    await ParcelDB.deleteOne({ _id: parcelId });
     logger.info(`Deleted the parcel with id: ${parcelId}`);
     return res.status(204).send();
   } catch (err) {
@@ -64,6 +71,7 @@ export const removeParcelById = async (req, res) => {
   }
 }
 
+// only during dev for testing
 export const removeAllParcels = async (_req, res) => {
   try {
     let deletedParcels = await ParcelDB.deleteMany({});

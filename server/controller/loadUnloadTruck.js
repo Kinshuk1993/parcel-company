@@ -60,31 +60,6 @@ const _load = (truckId, parcels) => {
   }, function () {
     logger.info(`Total ${totalLoaded} parcels loaded in the truck in this attempt`);
   });
-
-  // parcels.forEach(async eachParcelId => {
-  //   let parcel = await ParcelDB.findById(eachParcelId);
-  //   if (!parcel) {
-  //     logger.error(`Parcel with id ${eachParcelId} not found, skipping loading`);
-  //     return;
-  //   }
-  //   if (parcel.loaded) {
-  //     logger.error(`Parcel with id ${eachParcelId} is already loaded`);
-  //     return;
-  //   }
-  //   ParcelDB.findOneAndUpdate({ _id: eachParcelId }, { truckId: truckId, loaded: true }, function (errUpdateParcel, _updated) {
-  //     if (errUpdateParcel) {
-  //       logger.error(`Parcel with id ${eachParcelId} not updated with error: ${JSON.stringify(errUpdateParcel)}`);
-  //       return;
-  //     }
-  //     TruckDB.findOneAndUpdate({ _id: truckId }, { $inc: { totalWeight: parcel.weight, totalParcels: 1 } }, function (errUpdateTruck, _updated) {
-  //       if (errUpdateTruck) {
-  //         logger.error(`Truck with id ${truckId} not updated with error: ${JSON.stringify(errUpdateTruck)}`);
-  //         return;
-  //       }
-  //       logger.info(`Total ${++totalLoaded} parcels loaded in the truck`);
-  //     });
-  //   });
-  // });
 }
 
 export const unloadTruck = async (req, res) => {
@@ -140,29 +115,4 @@ const _unload = (truckId, parcels) => {
   }, function () {
     logger.info(`Total ${totalUnloaded} parcels unloaded from the truck in this attempt`);
   });
-
-  // parcels.forEach(async eachParcelId => {
-  //   let parcel = await ParcelDB.findById(eachParcelId);
-  //   if (!parcel) {
-  //     logger.error(`Parcel with id ${eachParcelId} not found, skipping its unloading`);
-  //     return;
-  //   }
-  //   if (!parcel.loaded) {
-  //     logger.error(`Parcel with id ${eachParcelId} is not loaded, cannot unload it`);
-  //     return;
-  //   }
-  //   ParcelDB.findOneAndUpdate({ _id: eachParcelId }, { truckId: "", loaded: false }, function (errUpdateParcel, _updated) {
-  //     if (errUpdateParcel) {
-  //       logger.error(`Parcel with id ${eachParcelId} not updated with error: ${JSON.stringify(errUpdateParcel)}`);
-  //       return;
-  //     }
-  //     TruckDB.findOneAndUpdate({ _id: truckId }, { $inc: { totalWeight: -parcel.weight, totalParcels: -1 } }, function (errUpdateTruck, _updated) {
-  //       if (errUpdateTruck) {
-  //         logger.error(`Truck with id ${truckId} not updated with error: ${JSON.stringify(errUpdateTruck)}`);
-  //         return;
-  //       }
-  //       logger.info(`Total ${++totalUnloaded} parcels unloaded from the truck`);
-  //     });
-  //   });
-  // });
 }
