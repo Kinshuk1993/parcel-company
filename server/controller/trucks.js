@@ -2,8 +2,6 @@
 
 import { TruckDB } from "../model/schema.js";
 import { logger } from "../config/logConfig.js"
-// import * as validation from "./validation.js";
-
 
 export const createTruck = (req, res) => {
   req.body.totalWeight = req.body.truckWeight;

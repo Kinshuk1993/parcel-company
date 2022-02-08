@@ -3,7 +3,6 @@
 import { ParcelDB } from "../model/schema.js";
 import { TruckDB } from "../model/schema.js";
 import { logger } from "../config/logConfig.js"
-// import * as validation from "./validation.js";
 
 export const createParcel = (req, res) => {
   let newParcel = new ParcelDB(req.body);

@@ -8,10 +8,12 @@ const truckDB = new Schema({
   truckWeight: {
     type: Number,
     required: true,
+    min: 1
   },
   totalWeight: {
     type: Number,
-    default: 0
+    default: 0,
+    min: 0
   },
   totalParcels: {
     type: Number,
@@ -25,6 +27,7 @@ const parcelDB = new Schema({
   weight: {
     type: Number,
     required: true,
+    min: 0
   },
   truckId: {
     type: String,
