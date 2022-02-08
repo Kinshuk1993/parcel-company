@@ -46,6 +46,7 @@ export const getAllTrucks = async (_req, res) => {
   }
 }
 
+// TODO: Implement unloading all parcels in this truck before deletion
 export const removeTruckById = async (req, res) => {
   let truckId = req.params.truckId
   try {
